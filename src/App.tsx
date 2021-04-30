@@ -1,11 +1,14 @@
 import React from "react";
 import "./App.css";
 import "./index.css";
+import NewUser from "./components/NewUser/NewUser";
+import UserList from "./components/UserList/UserList";
 
 function App() {
   return (
     <div>
-      <h1 className="text-white text-center">Test</h1>
+      <NewUser />
+      <UserList />
     </div>
   );
 }
