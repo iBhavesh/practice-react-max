@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import Overlay from "../Overlay/Overlay";
 
 const NewUser = () => {
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
+    event
+  ) => {
+    event.preventDefault();
+    setShowOverlay(true);
+  };
+
+  const turnOffOverlay = () => {
+    setShowOverlay(false);
+  };
+
   return (
     <div className="bg-purple-400 p-4 mx-auto my-4 rounded-2xl w-11/12 sm:w-96">
-      <form>
+      {showOverlay && <Overlay onClick={turnOffOverlay} />}
+      <form onSubmit={formSubmitHandler}>
         <div className="flex gap-4 mb-4 flex-wrap">
           <div>
             <label htmlFor="name" className="font-bold mb-2 block">
