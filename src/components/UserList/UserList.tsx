@@ -19,15 +19,17 @@ const UserList = (props: Props) => {
   }
   return (
     <div className="mt-8 mx-auto flex-col flex p-4 w-11/12 sm:w-96 bg-purple-400 rounded-2xl">
-      {props.userList.map((user) => (
-        <UserItem
-          onClickCross={onClickCross}
-          key={user.id}
-          id={user.id}
-          name={user.name}
-          age={user.age}
-        />
-      ))}
+      <ul>
+        {props.userList.map((user) => (
+          <UserItem
+            onClickCross={onClickCross}
+            key={user.id}
+            id={user.id}
+            name={user.name}
+            age={user.age}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
@@ -43,7 +45,7 @@ const UserItem = (props: UserItemProps) => {
     props.onClickCross(props.id);
   };
   return (
-    <div className="flex flex-row justify-between border-solid border border-black rounded-xl p-4 w-full mb-4">
+    <li className="flex flex-row justify-between border-solid border border-black rounded-xl p-4 w-full mb-4">
       <div>
         <h2 className="mr-4">{props.name}</h2>
         <h3 className="mr-4">{props.age}</h3>
@@ -54,7 +56,7 @@ const UserItem = (props: UserItemProps) => {
       >
         x
       </span>
-    </div>
+    </li>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { User } from "../../helpers/helpers";
 import Overlay from "../Overlay/Overlay";
 
@@ -8,14 +8,16 @@ type Props = {
 
 const NewUser = (props: Props) => {
   const [showOverlay, setShowOverlay] = useState(false);
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
   const [message, setMessage] = useState("initialState");
+  const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
 
   const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
     event
   ) => {
     event.preventDefault();
+    const enteredAge = ageRef.current!.value.trim();
+    const enteredName = nameRef.current!.value.trim();
     if (+enteredAge < 0) {
       setMessage("Age should be greater than 0");
       setShowOverlay(true);
@@ -26,29 +28,24 @@ const NewUser = (props: Props) => {
       setShowOverlay(true);
       return;
     }
+    if (enteredName.length < 1) {
+      setMessage("Enter Name");
+      setShowOverlay(true);
+      return;
+    }
     const user = {
       name: enteredName,
       age: +enteredAge,
       id: new Date(Date()).toISOString(),
     };
     props.onAddUser(user);
-    setEnteredAge("");
-    setEnteredName("");
+    ageRef.current!.value = "";
+    nameRef.current!.value = "";
+    nameRef.current!.focus();
   };
 
   const turnOffOverlay = () => {
     setShowOverlay(false);
-  };
-
-  const enteredNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setEnteredName(event.target.value);
-  };
-  const enteredAgeChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setEnteredAge(event.target.value);
   };
 
   return (
@@ -63,9 +60,8 @@ const NewUser = (props: Props) => {
             <input
               type="text"
               required
-              onChange={enteredNameChangeHandler}
               className="p-2 border-solid rounded border w-80 m-w-full"
-              value={enteredName}
+              ref={nameRef}
             />
           </div>
           <div>
@@ -75,11 +71,10 @@ const NewUser = (props: Props) => {
             <input
               type="number"
               required
-              onChange={enteredAgeChangeHandler}
               step="1"
               max="150"
               className="p-2 border-solid rounded border w-80 m-w-full"
-              value={enteredAge}
+              ref={ageRef}
             />
           </div>
         </div>
