@@ -16,10 +16,10 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       <NewUser onAddUser={addUser} />
       <UserList onDeleteItem={deleteUser} userList={userList} />
-    </div>
+    </>
   );
 }
 
